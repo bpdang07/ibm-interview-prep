@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>IBM Tech Prep</title>
+  <meta name="description" content="Technical interview prep for the IBM entry-level Cloud Developer role.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23059669'/%3E%3Cpath d='M18 40l10-10-10-10M32 44h14' stroke='white' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    })();
+  </script>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/prep.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" class="stop-a"/><stop offset="1" class="stop-b"/>
+      </linearGradient>
+      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0 0 10 5 0 10z" class="d-arrow"/>
+      </marker>
+    </defs>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M8 5v14M16 5v14"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></symbol>
+    <symbol id="i-shuffle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></symbol>
+    <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3m0 0 5 5m-5-5-5 5M5 21h14"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.34 8.5 5 5 0 0 0 7 19z"/></symbol>
+  </svg>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#plan" aria-label="IBM tech prep — plan">
+        <span class="brand-mark">&gt;_</span>
+        <span class="brand-name">tech<span class="accent">.</span>prep</span>
+      </a>
+      <nav class="tabs" aria-label="Sections">
+        <a href="#plan" data-tab="plan">Plan</a>
+        <a href="#terms" data-tab="terms">Terms</a>
+        <a href="#cloud" data-tab="cloud">Cloud</a>
+        <a href="#design" data-tab="design">Design</a>
+        <a href="#coding" data-tab="coding">Coding</a>
+        <a href="#assess" data-tab="assess">Assess</a>
+        <a href="#projects" data-tab="projects">Projects</a>
+        <a href="#mock" data-tab="mock">Mock</a>
+        <a href="#talk" data-tab="talk">Talk</a>
+        <span class="tab-indicator" aria-hidden="true"></span>
+      </nav>
+      <div class="top-actions">
+      <a class="site-link" id="portfolioLink" href="https://bpdang07.github.io/bpdang07_portfolio/"><svg aria-hidden="true"><use href="#i-external"/></svg><span>Portfolio</span></a>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <mask id="moon-mask"><rect width="24" height="24" fill="white"/><circle class="moon-cut" cx="27" cy="7" r="6" fill="black"/></mask>
+          <circle class="sun-core" cx="12" cy="12" r="5" fill="currentColor" mask="url(#moon-mask)"/>
+          <g class="sun-rays" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="12" y1="1.5" x2="12" y2="3.5"/><line x1="12" y1="20.5" x2="12" y2="22.5"/>
+            <line x1="1.5" y1="12" x2="3.5" y2="12"/><line x1="20.5" y1="12" x2="22.5" y2="12"/>
+            <line x1="4.6" y1="4.6" x2="6" y2="6"/><line x1="18" y1="18" x2="19.4" y2="19.4"/>
+            <line x1="4.6" y1="19.4" x2="6" y2="18"/><line x1="18" y1="6" x2="19.4" y2="4.6"/>
+          </g>
+        </svg>
+      </button>
+      </div>
+    </div>
+    <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============================== PLAN ============================== -->
+    <section class="page" id="page-plan" data-title="IBM Tech Prep">
+      <div class="hero-bg" aria-hidden="true"><div class="grid-lines"></div></div>
+      <div class="container hero">
+        <div>
+          <p class="eyebrow reveal"><span class="live-dot"></span> IBM · Entry-level Cloud Developer · Technical round</p>
+          <h1 class="reveal" style="--d:1">Technical interview <span class="grad">prep</span></h1>
+          <p class="lead reveal" style="--d:2">Cloud flashcards, system design with diagrams, coding patterns, deep dives on your own projects, and a timed mock interview. Your notes and progress save in this browser.</p>
+          <div class="hero-actions reveal" style="--d:3">
+            <a class="btn btn-primary" href="#mock"><svg class="ico"><use href="#i-play"/></svg> Start a mock interview</a>
+            <a class="btn btn-ghost" href="#cloud">Flashcards</a>
+          </div>
+        </div>
+        <div class="card status reveal" style="--d:2">
+          <div class="ready">
+            <div class="ring">
+              <svg viewBox="0 0 112 112" aria-hidden="true">
+                <circle class="track" cx="56" cy="56" r="46"/>
+                <circle class="fill" id="ringFill" cx="56" cy="56" r="46"/>
+              </svg>
+              <div class="ring-label"><strong id="readyPct">0%</strong><span>ready</span></div>
+            </div>
+            <ul class="ready-list" id="readyList"></ul>
+          </div>
+          <div class="countdown">
+            <label for="interviewDate">Interview date</label>
+            <input type="date" id="interviewDate">
+            <p id="countdownText" class="countdown-text">Set it for a countdown.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="container section">
+        <div class="section-head reveal">
+          <span class="kicker">How the round usually goes</span>
+          <h2>Five parts, roughly in this order.</h2>
+          <span class="rule"></span>
+          <p class="section-sub">Formats vary by team, so ask your recruiter what to expect. This is the most common shape of an entry-level technical round.</p>
+        </div>
+        <ol class="steps steps-5" data-stagger>
+          <li class="card step"><h3>Intro</h3><p>"Tell me about yourself." 60–90 seconds. <a href="#talk">Pitch →</a></p></li>
+          <li class="card step"><h3>Project deep dive</h3><p>"Walk me through…" then follow-ups until you hit the edge. <a href="#projects">Projects →</a></p></li>
+          <li class="card step"><h3>Cloud concepts</h3><p>Quick-fire: containers, Kubernetes, CI/CD, networking, security. <a href="#cloud">Cards →</a></p></li>
+          <li class="card step"><h3>Problem</h3><p>A coding problem, or an open design question. <a href="#assess">Practice →</a></p></li>
+          <li class="card step"><h3>Your questions</h3><p>Always have three ready. <a href="#talk">Questions →</a></p></li>
+        </ol>
+      </div>
+
+      <div class="container section section-tight">
+        <div class="grid-2">
+          <div class="card panel reveal">
+            <div class="panel-head"><h3>Checklist</h3><span class="mono muted" id="planCount">0 / 0</span></div>
+            <div class="progress-line"><span id="planBar"></span></div>
+            <ul class="checklist" data-group="plan">
+              <li><label class="check"><input type="checkbox" data-id="cards40"><span>Mark 40 flashcards "Know it"</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="dives"><span>Fill every [blank] in the VetsEZ and Railpark walkthroughs</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="surgimodel"><span>Explain SurgiMatch's assignment data model out loud</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="deploydiagram"><span>Talk through "Deploy SurgiMatch" using the diagram</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="coupimprove"><span>Explain what you'd change about Coup V2's deploy step</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="leet15"><span>Solve 15 tracker problems, explaining out loud</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="assess6"><span>Pass every test on 6 Assess challenges</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="quiz80"><span>Score 80% or more on a 20-question cloud quiz</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="sql"><span>Write a JOIN + GROUP BY + HAVING query from memory</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="openshift"><span>Deploy one container to a free OpenShift or IBM Cloud tier</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="mock2"><span>Two full mock interviews in Mixed mode</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="pitch"><span>Pitch in under 90 seconds</span></label></li>
+            </ul>
+          </div>
+          <div class="card panel reveal" style="--d:1">
+            <div class="panel-head"><h3>If you have…</h3></div>
+            <div class="seg" role="tablist" aria-label="Time left">
+              <button type="button" role="tab" data-plan="1" aria-selected="false">1 day</button>
+              <button type="button" role="tab" data-plan="3" aria-selected="true">3 days</button>
+              <button type="button" role="tab" data-plan="7" aria-selected="false">A week</button>
+            </div>
+            <ol class="plan-list" data-plan-body="1" hidden>
+              <li>Projects tab: fill <strong>VetsEZ</strong> and <strong>SurgiMatch</strong>, then say each walkthrough out loud.</li>
+              <li>Cloud cards: Cloud basics, Containers, Kubernetes &amp; OpenShift, CI/CD.</li>
+              <li>Design: talk through "Deploy SurgiMatch" with the diagram.</li>
+              <li>Two easy and one medium problem from the tracker, out loud.</li>
+              <li>One mock interview, then pitch and questions on the Talk tab.</li>
+            </ol>
+            <ol class="plan-list" data-plan-body="3">
+              <li><strong>Day 1:</strong> all project walkthroughs plus their follow-ups. Cloud basics, Containers and Kubernetes cards.</li>
+              <li><strong>Day 2:</strong> the remaining cards. Design scenarios 1–4 out loud. 3 tracker problems.</li>
+              <li><strong>Day 3:</strong> two mock interviews, review everything marked "Review," pitch and questions, sleep early.</li>
+            </ol>
+            <ol class="plan-list" data-plan-body="7" hidden>
+              <li>The 3-day plan, spread out, with 2–3 tracker problems every day (25-minute timer).</li>
+              <li>Deploy a small container to Red Hat's free OpenShift Developer Sandbox or IBM Cloud's free tier.</li>
+              <li>All eight design scenarios out loud; record one on your phone and watch it back.</li>
+              <li>A mock interview every other day; keep a list of questions you stumbled on.</li>
+              <li>Read the job posting line by line and match each requirement to a project or card.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="card panel takeaway reveal">
+          <div class="panel-head"><h3>Take it with you</h3><span class="mono muted">export &amp; links</span></div>
+          <div class="takeaway-grid">
+            <div>
+              <h4>Full study guide</h4>
+              <p class="muted">Your notes (pitch, Why IBM, walkthroughs), every term, every flashcard, the design scenarios and project follow-ups in one document.</p>
+              <div class="export" data-export="all">
+                <button class="mini" type="button" data-fmt="pdf"><svg><use href="#i-download"/></svg> PDF</button>
+                <button class="mini" type="button" data-fmt="md"><svg><use href="#i-download"/></svg> Markdown</button>
+              </div>
+            </div>
+            <div>
+              <h4>Just your notes</h4>
+              <p class="muted">Pitch, Why IBM, your filled-in walkthroughs and the questions you picked. Good for a quick read before you log on.</p>
+              <div class="export" data-export="notes">
+                <button class="mini" type="button" data-fmt="pdf"><svg><use href="#i-download"/></svg> PDF</button>
+                <button class="mini" type="button" data-fmt="md"><svg><use href="#i-download"/></svg> Markdown</button>
+              </div>
+            </div>
+            <div>
+              <h4>Come back later</h4>
+              <p class="muted">This site reopens on the tab you were last on. Progress saves in each browser separately, so the online copy and the one on your Mac keep their own. To move it, back it up on one and restore it on the other.</p>
+              <div class="export">
+                <button class="mini" type="button" id="backupProgress"><svg><use href="#i-download"/></svg> Back up progress</button>
+                <label class="mini file-pick"><svg><use href="#i-upload"/></svg> Restore<input type="file" id="restoreProgress" accept="application/json,.json"></label>
+              </div>
+              <a class="mini" id="portfolioLink2" href="https://bpdang07.github.io/bpdang07_portfolio/"><svg><use href="#i-external"/></svg> Open my portfolio</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== TERMS ============================== -->
+    <section class="page" id="page-terms" data-title="Terms — IBM Tech Prep" hidden>
+      <div class="container section page-top">
+        <div class="section-head reveal">
+          <span class="kicker">Terms &amp; acronyms</span>
+          <h2>What it stands for, in plain English.</h2>
+          <span class="rule"></span>
+          <p class="section-sub">Every acronym and piece of jargon on this site, with how to say it. Everywhere else, words with a <span class="term demo">dotted underline</span> can be tapped to see what they mean.</p>
+        </div>
+        <div class="back-pill" id="termsBack" hidden><button class="mini" type="button"><svg><use href="#i-back"/></svg> Back to <span></span></button></div>
+        <div class="toolbar reveal">
+          <label class="search">
+            <svg aria-hidden="true"><use href="#i-search"/></svg>
+            <input type="search" id="termSearch" placeholder="Search, e.g. IaaS or load balancer" aria-label="Search terms" autocomplete="off">
+            <kbd>/</kbd>
+          </label>
+          <div class="toolbar-right">
+            <label class="switch"><input type="checkbox" id="quizTerms"><span class="switch-ui"></span> Quiz me</label>
+            <div class="export" data-export="terms">
+              <span class="mono muted">Export</span>
+              <button class="mini" type="button" data-fmt="pdf">PDF</button>
+              <button class="mini" type="button" data-fmt="anki">Quizlet / Anki</button>
+              <button class="mini" type="button" data-fmt="md">Markdown</button>
+            </div>
+          </div>
+        </div>
+        <div class="filters term-filters reveal" id="termFilters" role="group" aria-label="Filter by category"></div>
+        <p class="mono muted term-count" id="termCount"></p>
+        <div class="terms-grid" id="termGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============================== CLOUD ============================== -->
+    <section class="page" id="page-cloud" data-title="Cloud flashcards — IBM Tech Prep" hidden>
+      <div class="container section page-top">
+        <div class="section-head reveal">
+          <span class="kicker">Cloud &amp; CS concepts</span>
+          <h2>Flashcards.</h2>
+          <span class="rule"></span>
+          <p class="section-sub">Say the answer out loud <em>before</em> you flip, then mark it. Answers are written the way you'd say them, and the ones marked <span class="you-chip">You</span> tie the concept to your own work.</p>
+        </div>
+        <div class="toolbar reveal">
+          <div class="filters" id="cardFilters" role="group" aria-label="Filter by topic"></div>
+          <div class="toolbar-right">
+            <label class="switch"><input type="checkbox" id="hideKnown"><span class="switch-ui"></span> Hide known</label>
+            <div class="export" data-export="cards">
+              <span class="mono muted">Export</span>
+              <button class="mini" type="button" data-fmt="pdf">PDF</button>
+              <button class="mini" type="button" data-fmt="anki">Quizlet / Anki</button>
+              <button class="mini" type="button" data-fmt="md">Markdown</button>
+            </div>
+            <button class="btn btn-ghost btn-sm" type="button" id="shuffleCards"><svg class="ico"><use href="#i-shuffle"/></svg> Shuffle</button>
+          </div>
+        </div>
+        <div class="card-meter reveal"><span class="mono muted" id="cardCount"></span><div class="progress-line"><span id="cardBar"></span></div></div>
+        <div class="cards-grid" id="cardGrid"></div>
+
+        <div class="card panel map-panel reveal">
+          <div class="panel-head"><h3>Same idea, different name</h3><span class="mono muted">AWS ↔ Google Cloud ↔ IBM Cloud</span></div>
+          <p class="hint">You've used AWS (VetsEZ) and Google Cloud (Railpark). Saying "that's the IBM version of S3" shows your knowledge transfers.</p>
+          <div class="table-wrap"><table class="table" id="serviceMap"></table></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== DESIGN ============================== -->
+    <section class="page" id="page-design" data-title="System design — IBM Tech Prep" hidden>
+      <div class="container section page-top">
+        <div class="section-head reveal">
+          <span class="kicker">System design &amp; scenarios</span>
+          <h2>"How would you…"</h2>
+          <span class="rule"></span>
+          <p class="section-sub">There's rarely one right answer. They want to hear you ask questions first, think in order, and name tradeoffs. Try each out loud before you open it.</p>
+        </div>
+        <ol class="steps steps-6" data-stagger>
+          <li class="card step"><h3>Clarify</h3><p>Users, scale, constraints, compliance.</p></li>
+          <li class="card step"><h3>Sketch</h3><p>The big boxes and how requests flow.</p></li>
+          <li class="card step"><h3>Data &amp; APIs</h3><p>What's stored, what's exposed.</p></li>
+          <li class="card step"><h3>Deep dive</h3><p>The hardest part, in detail.</p></li>
+          <li class="card step"><h3>Break it</h3><p>Failures, security, the next bottleneck.</p></li>
+          <li class="card step"><h3>Tradeoffs</h3><p>What you chose, and what you'd do next.</p></li>
+        </ol>
+        <div id="scenarioList"></div>
+      </div>
+    </section>
+
+    <!-- ============================== CODING ============================== -->
+    <section class="page" id="page-coding" data-title="Coding — IBM Tech Prep" hidden>
+      <div class="container section page-top">
+        <div class="section-head reveal">
+          <span class="kicker">Coding</span>
+          <h2>Patterns over problems.</h2>
+          <span class="rule"></span>
+          <p class="section-sub">You already grind LeetCode daily, so say that. In the interview, <strong>thinking out loud</strong> counts as much as the final code. Silence is the only real way to fail a coding round.</p>
+        </div>
+        <ol class="steps steps-6" data-stagger>
+          <li class="card step"><h3>Clarify</h3><p>Input sizes, edge cases: empty, duplicates, negatives.</p></li>
+          <li class="card step"><h3>Example</h3><p>Walk a small input by hand.</p></li>
+          <li class="card step"><h3>Brute force</h3><p>Say it and its Big-O first.</p></li>
+          <li class="card step"><h3>Optimize</h3><p>Which pattern fits? Trade space for time.</p></li>
+          <li class="card step"><h3>Code</h3><p>Clear names, narrate as you go.</p></li>
+          <li class="card step"><h3>Test</h3><p>Your example, then an edge case.</p></li>
+        </ol>
+
+        <div class="card panel reveal">
+          <div class="panel-head"><h3>Practice tracker</h3><span class="mono muted" id="probCount"></span></div>
+          <div class="progress-line"><span id="probBar"></span></div>
+          <div class="prob-groups" id="probGroups"></div>
+        </div>
+
+        <div class="card panel reveal">
+          <div class="panel-head"><h3>Pattern cheat sheet</h3></div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead><tr><th>Pattern</th><th>Reach for it when…</th><th>Signal in the prompt</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Hash map / set</strong></td><td>Fast lookups, counting, "seen before?"</td><td>"find a pair," "duplicates," "frequency"</td></tr>
+                <tr><td><strong>Two pointers</strong></td><td>Sorted input, pairs, palindromes</td><td>"sorted array," "in place"</td></tr>
+                <tr><td><strong>Sliding window</strong></td><td>Best contiguous subarray or substring</td><td>"longest/shortest substring," "subarray of size k"</td></tr>
+                <tr><td><strong>Stack</strong></td><td>Matching pairs, next greater element</td><td>"valid brackets," "next warmer day"</td></tr>
+                <tr><td><strong>Binary search</strong></td><td>Sorted data, or the smallest X that works</td><td>"sorted," "minimum capacity/speed," O(log n)</td></tr>
+                <tr><td><strong>BFS / DFS</strong></td><td>Trees, graphs, grids, dependencies</td><td>"islands," "levels," "prerequisites"</td></tr>
+                <tr><td><strong>Heap</strong></td><td>Top-k, merging sorted streams</td><td>"k largest," "k most frequent"</td></tr>
+                <tr><td><strong>Intervals</strong></td><td>Overlaps, scheduling. Sort by start</td><td>"meetings," "merge ranges"</td></tr>
+                <tr><td><strong>Dynamic programming</strong></td><td>Counting ways, best total, overlapping subproblems</td><td>"how many ways," "maximum sum without…"</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="grid-2 code-grid">
+          <div class="card panel reveal">
+            <div class="panel-head"><h3>Sliding window</h3><span class="mono muted">Python</span></div>
+<pre><code><span class="c"># Longest substring without repeating characters</span>
+<span class="k">def</span> longest(s):
+    seen = {}            <span class="c"># char -> last index</span>
+    left = best = 0
+    <span class="k">for</span> right, ch <span class="k">in</span> enumerate(s):
+        <span class="k">if</span> ch <span class="k">in</span> seen <span class="k">and</span> seen[ch] >= left:
+            left = seen[ch] + 1   <span class="c"># jump past the repeat</span>
+        seen[ch] = right
+        best = max(best, right - left + 1)
+    <span class="k">return</span> best          <span class="c"># O(n) time</span></code></pre>
+          </div>
+          <div class="card panel reveal" style="--d:1">
+            <div class="panel-head"><h3>BFS on a grid</h3><span class="mono muted">Python</span></div>
+<pre><code><span class="k">from</span> collections <span class="k">import</span> deque
+
+<span class="k">def</span> num_islands(grid):
+    rows, cols, count = len(grid), len(grid[0]), 0
+    <span class="k">for</span> r <span class="k">in</span> range(rows):
+        <span class="k">for</span> c <span class="k">in</span> range(cols):
+            <span class="k">if</span> grid[r][c] != <span class="s">"1"</span>: <span class="k">continue</span>
+            count += 1
+            q = deque([(r, c)]); grid[r][c] = <span class="s">"0"</span>
+            <span class="k">while</span> q:
+                y, x = q.popleft()
+                <span class="k">for</span> dy, dx <span class="k">in</span> ((1,0), (-1,0), (0,1), (0,-1)):
+                    ny, nx = y + dy, x + dx
+                    <span class="k">if</span> 0 &lt;= ny &lt; rows <span class="k">and</span> 0 &lt;= nx &lt; cols <span class="k">and</span> grid[ny][nx] == <span class="s">"1"</span>:
+                        grid[ny][nx] = <span class="s">"0"</span>; q.append((ny, nx))
+    <span class="k">return</span> count          <span class="c"># O(rows * cols)</span></code></pre>
+          </div>
+          <div class="card panel reveal">
+            <div class="panel-head"><h3>Binary search</h3><span class="mono muted">Python</span></div>
+<pre><code><span class="k">def</span> search(nums, target):
+    lo, hi = 0, len(nums) - 1
+    <span class="k">while</span> lo &lt;= hi:
+        mid = (lo + hi) // 2
+        <span class="k">if</span> nums[mid] == target: <span class="k">return</span> mid
+        <span class="k">if</span> nums[mid] &lt; target: lo = mid + 1
+        <span class="k">else</span>: hi = mid - 1
+    <span class="k">return</span> -1             <span class="c"># O(log n)</span></code></pre>
+          </div>
+          <div class="card panel reveal" style="--d:1">
+            <div class="panel-head"><h3>SQL you should write cold</h3><span class="mono muted">SQL</span></div>
+<pre><code><span class="c">-- Nurses with 3+ scheduled assignments, busiest first</span>
+<span class="k">SELECT</span> n.name, <span class="k">COUNT</span>(a.id) <span class="k">AS</span> assignments
+<span class="k">FROM</span> nurse n
+<span class="k">JOIN</span> assignment a <span class="k">ON</span> a.nurse_id = n.id
+<span class="k">WHERE</span> a.status = <span class="s">'scheduled'</span>
+<span class="k">GROUP BY</span> n.name
+<span class="k">HAVING</span> <span class="k">COUNT</span>(a.id) >= 3
+<span class="k">ORDER BY</span> assignments <span class="k">DESC</span>;
+<span class="c">-- Also know: LEFT JOIN vs INNER JOIN, WHERE vs HAVING,</span>
+<span class="c">-- ROW_NUMBER() OVER (PARTITION BY ... ORDER BY ...)</span></code></pre>
+          </div>
+        </div>
+
+        <div class="card panel reveal">
+          <div class="panel-head"><h3>Big-O to know cold</h3></div>
+          <div class="bigo" data-stagger>
+            <span><b>O(1)</b> hash lookup, array index</span>
+            <span><b>O(log n)</b> binary search, heap push/pop</span>
+            <span><b>O(n)</b> one pass, BFS/DFS over n nodes</span>
+            <span><b>O(n log n)</b> sorting</span>
+            <span><b>O(n²)</b> nested loops over the input</span>
+            <span><b>O(2ⁿ)</b> all subsets, naive recursion</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== ASSESS ============================== -->
+    <section class="page" id="page-assess" data-title="Online assessment — IBM Tech Prep" hidden>
+      <div class="container section page-top">
+        <div class="section-head reveal">
+          <span class="kicker">Online assessment</span>
+          <h2>HackerRank-style practice.</h2>
+          <span class="rule"></span>
+          <p class="section-sub">Many companies send a timed coding test before or alongside the technical interview, often on HackerRank. Write real Python or JavaScript here and run it against test cases, hidden ones included, like the real thing. Then take the multiple-choice cloud quiz.</p>
+        </div>
+        <ol class="steps steps-5" data-stagger>
+          <li class="card step"><h3>Read twice</h3><p>Inputs, outputs, and every rule in the story.</p></li>
+          <li class="card step"><h3>Check limits</h3><p>n up to 10⁵ means O(n log n) or better.</p></li>
+          <li class="card step"><h3>Run samples</h3><p>Get the given cases passing first.</p></li>
+          <li class="card step"><h3>Edge cases</h3><p>Empty input, one item, duplicates, huge input.</p></li>
+          <li class="card step"><h3>Submit</h3><p>Hidden tests decide the score. Partial credit counts.</p></li>
+        </ol>
+
+        <div class="chal-picker reveal" id="chalPicker" role="tablist" aria-label="Challenges"></div>
+
+        <div class="card chal-work reveal" id="chalWork">
+          <article class="chal-statement" id="chalStatement" aria-live="polite"></article>
+          <div class="chal-side">
+            <div class="chal-bar">
+              <label class="chal-lang"><span class="sr-only">Language</span>
+                <select id="chalLang">
+                  <option value="py">Python 3</option>
+                  <option value="js">JavaScript</option>
+                </select>
+              </label>
+              <span class="chal-clock mono" id="chalClock" title="Starts when you begin typing">0:00</span>
+              <button class="mini" type="button" id="chalReset"><svg><use href="#i-reset"/></svg> Reset code</button>
+            </div>
+            <div class="editor-wrap">
+              <pre class="editor-gutter" id="chalGutter" aria-hidden="true">1</pre>
+              <textarea class="code-editor" id="chalCode" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off" aria-label="Your solution"></textarea>
+            </div>
+            <div class="chal-actions">
+              <button class="btn btn-ghost btn-sm" type="button" id="chalRun"><svg class="ico"><use href="#i-play"/></svg> Run samples</button>
+              <button class="btn btn-primary btn-sm" type="button" id="chalSubmit"><svg class="ico"><use href="#i-check"/></svg> Submit</button>
+              <span class="hint chal-keys"><kbd>Tab</kbd> indents · <kbd>Esc</kbd> then <kbd>Tab</kbd> leaves · <kbd>⌘/Ctrl</kbd>+<kbd>Enter</kbd> runs</span>
+            </div>
+            <div class="chal-results" id="chalResults" aria-live="polite"></div>
+          </div>
+        </div>
+
+        <div class="card panel quiz reveal" id="quiz">
+          <div class="panel-head"><h3>Multiple-choice cloud quiz</h3><span class="mono muted" id="quizBest"></span></div>
+          <div class="quiz-setup" id="quizSetup">
+            <p class="muted">Like the multiple-choice part of an online assessment: about a minute per question, and no answers until you finish. Questions and options are shuffled every time.</p>
+            <div class="quiz-options">
+              <label class="quiz-field"><span>Topic</span><select id="quizTopic"></select></label>
+              <div class="quiz-field"><span>Questions</span>
+                <div class="seg" role="tablist" aria-label="Number of questions" id="quizCount">
+                  <button type="button" role="tab" data-n="10" aria-selected="true">10</button>
+                  <button type="button" role="tab" data-n="20" aria-selected="false">20</button>
+                  <button type="button" role="tab" data-n="all" aria-selected="false">All</button>
+                </div>
+              </div>
+            </div>
+            <button class="btn btn-primary" type="button" id="quizStart"><svg class="ico"><use href="#i-play"/></svg> Start quiz</button>
+          </div>
+          <div class="quiz-run" id="quizRun" hidden>
+            <div class="quiz-top"><span class="mono muted" id="quizProgress"></span><span class="quiz-clock mono" id="quizClock"></span></div>
+            <div class="progress-line"><span id="quizBar"></span></div>
+            <p class="quiz-cat" id="quizCat"></p>
+            <h4 class="quiz-q" id="quizQ"></h4>
+            <div class="quiz-opts" id="quizOpts" role="radiogroup" aria-labelledby="quizQ"></div>
+            <div class="quiz-nav">
+              <button class="btn btn-ghost btn-sm" type="button" id="quizPrev"><svg class="ico"><use href="#i-back"/></svg> Back</button>
+              <span class="hint">Keys <kbd>1</kbd>–<kbd>4</kbd> pick an answer</span>
+              <button class="btn btn-primary btn-sm" type="button" id="quizNext">Next <svg class="ico"><use href="#i-next"/></svg></button>
+            </div>
+          </div>
+          <div class="quiz-result" id="quizResult" hidden></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== PROJECTS ============================== -->
+    <section class="page" id="page-projects" data-title="Project deep dives — IBM Tech Prep" hidden>
+      <div class="container section page-top">
+        <div class="section-head reveal">
+          <span class="kicker">Project deep dives</span>
+          <h2>"Walk me through it."</h2>
+          <span class="rule"></span>
+          <p class="section-sub">Technical rounds go deep on your own work, asking follow-ups until you reach the edge of what you know. Each walkthrough is a draft from your résumé, GitHub and code. Replace every <code>[bracket]</code> with the real detail, then practice the follow-ups. Your edits save automatically.</p>
+        </div>
+        <div class="proj-tabs reveal" id="projTabs" role="tablist" aria-label="Projects"></div>
+        <div id="projPanels"></div>
+      </div>
+    </section>
+
+    <!-- ============================== MOCK ============================== -->
+    <section class="page" id="page-mock" data-title="Mock interview — IBM Tech Prep" hidden>
+      <div class="container section page-top">
+        <div class="section-head reveal">
+          <span class="kicker">Mock interview</span>
+          <h2>One question at a time, on the clock.</h2>
+          <span class="rule"></span>
+          <p class="section-sub">Answer out loud, then open the guide and rate yourself. Flashcards you mark here update your Cloud tab. Shortcuts: <kbd>Space</kbd> pause, <kbd>G</kbd> guide, <kbd>N</kbd> next.</p>
+        </div>
+        <div class="mock-layout">
+          <div class="card mock-card reveal">
+            <div class="mock-modes filters" role="group" aria-label="Question types">
+              <button class="filter" type="button" data-mode="mixed" aria-pressed="true">Mixed</button>
+              <button class="filter" type="button" data-mode="terms" aria-pressed="false">Terms</button>
+              <button class="filter" type="button" data-mode="cloud" aria-pressed="false">Cloud</button>
+              <button class="filter" type="button" data-mode="design" aria-pressed="false">Design</button>
+              <button class="filter" type="button" data-mode="coding" aria-pressed="false">Coding</button>
+              <button class="filter" type="button" data-mode="projects" aria-pressed="false">Projects</button>
+              <button class="filter" type="button" data-mode="talk" aria-pressed="false">Talk</button>
+            </div>
+            <div class="mock-stage" id="mockStage">
+              <div class="mock-top"><span class="mock-kind" id="mockKind">Ready</span><span class="mono muted" id="mockCount"></span></div>
+              <h3 class="mock-q" id="mockQ">Pick a mode and press Start.</h3>
+              <p class="mock-sub" id="mockSub"></p>
+            </div>
+            <div class="timer" id="mockTimer" data-max="120">
+              <div class="timer-row"><span class="timer-digits">0:00</span><span class="mono muted timer-target" id="mockTarget">target 2:00</span></div>
+              <div class="timer-bar"><span></span></div>
+            </div>
+            <div class="mock-guide" id="mockGuide" hidden></div>
+            <div class="mock-actions">
+              <button class="btn btn-primary" type="button" id="mockStart"><svg class="ico"><use href="#i-play"/></svg> Start</button>
+              <button class="btn btn-ghost" type="button" id="mockPause" disabled><svg class="ico"><use href="#i-pause"/></svg> <span>Pause</span></button>
+              <button class="btn btn-ghost" type="button" id="mockGuideBtn" disabled><svg class="ico"><use href="#i-bulb"/></svg> Guide</button>
+              <button class="btn btn-ghost" type="button" id="mockNext" disabled>Next <svg class="ico"><use href="#i-next"/></svg></button>
+            </div>
+            <div class="mock-rate" id="mockRate" hidden>
+              <span class="muted">How did that go?</span>
+              <button class="mini good" type="button" data-rate="good"><svg><use href="#i-check"/></svg> Nailed it</button>
+              <button class="mini" type="button" data-rate="review">Needs work</button>
+            </div>
+          </div>
+          <aside class="card panel mock-side reveal" style="--d:1">
+            <div class="panel-head"><h3>This session</h3><button class="mini" type="button" id="mockClear">Clear</button></div>
+            <div class="mock-stats"><div><strong id="statDone">0</strong><span>answered</span></div><div><strong id="statGood">0</strong><span>nailed</span></div><div><strong id="statAvg">–</strong><span>avg time</span></div></div>
+            <ol class="mock-history" id="mockHistory"></ol>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== TALK ============================== -->
+    <section class="page" id="page-talk" data-title="Pitch & questions — IBM Tech Prep" hidden>
+      <div class="container section page-top">
+        <div class="section-head reveal">
+          <span class="kicker">The talking parts</span>
+          <h2>Pitch, Why IBM, and your questions.</h2>
+          <span class="rule"></span>
+          <p class="section-sub">Even technical rounds open with "tell me about yourself" and close with "any questions for us?" Nail both ends.</p>
+        </div>
+
+        <div class="pitch-grid">
+          <div class="card panel reveal">
+            <div class="panel-head"><h3>Your pitch</h3><button class="mini" type="button" data-reset="pitch">Reset to draft</button></div>
+            <textarea class="editor autosize" id="pitchText" data-store="pitch" aria-label="Your pitch"></textarea>
+            <p class="hint">Present (VetsEZ) → past (Railpark, projects) → why this role. Learn the shape, not the words.</p>
+          </div>
+          <div class="card panel reveal" style="--d:1">
+            <div class="panel-head"><h3>Timer</h3><span class="mono muted">target 60–90 s</span></div>
+            <div class="timer" id="pitchTimer" data-max="120" data-zones="1">
+              <div class="timer-row"><span class="timer-digits">0:00</span></div>
+              <div class="timer-bar"><span></span><i style="left:50%"></i><i style="left:75%"></i></div>
+              <div class="timer-scale"><span>0</span><span>60s</span><span>90s</span><span>2m</span></div>
+              <p class="timer-msg">Press start and say it out loud.</p>
+              <div class="timer-controls">
+                <button class="btn btn-primary" type="button" data-timer="toggle"><svg class="ico"><use href="#i-play"/></svg> <span>Start</span></button>
+                <button class="btn btn-ghost" type="button" data-timer="reset"><svg class="ico"><use href="#i-reset"/></svg> Reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card panel reveal">
+            <div class="panel-head"><h3>Why IBM?</h3><button class="mini" type="button" data-reset="whyibm">Reset to draft</button></div>
+            <textarea class="editor autosize" id="whyIbmText" data-store="whyibm" aria-label="Why IBM"></textarea>
+            <p class="hint">Make the last sentence specific to this team or posting. That's what makes it memorable.</p>
+          </div>
+          <div class="card panel reveal" style="--d:1">
+            <div class="panel-head"><h3>IBM in one breath</h3></div>
+            <ul class="facts">
+              <li><strong>Hybrid cloud</strong> is the strategy: one platform across on-prem and every cloud.</li>
+              <li><strong>Red Hat OpenShift</strong> (IBM owns Red Hat) is how that platform works.</li>
+              <li><strong>watsonx</strong> is IBM's AI and data platform for businesses.</li>
+              <li><strong>HashiCorp</strong> (Terraform, Vault) is part of IBM now.</li>
+              <li><strong>Values:</strong> dedication to every client's success · innovation that matters · trust and personal responsibility.</li>
+            </ul>
+            <p class="hint">Check ibm.com the night before for anything you plan to quote.</p>
+          </div>
+        </div>
+
+        <div class="card panel reveal">
+          <div class="panel-head"><h3>Non-technical questions in a technical round</h3></div>
+          <div class="qlist" id="talkList"></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card panel reveal">
+            <div class="panel-head"><h3>Questions to ask them</h3><span class="mono muted">tick your top 3</span></div>
+            <ul class="checklist" data-group="ask">
+              <li><label class="check"><input type="checkbox" data-id="a1"><span>What does the team deploy to day to day: IBM Cloud, OpenShift, client environments?</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="a2"><span>How does code get from a pull request to production here?</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="a3"><span>What would a new hire ship in their first 90 days?</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="a4"><span>What's the hardest technical problem the team is working on right now?</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="a5"><span>How is on-call or production support handled?</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="a6"><span>How do you support new grads: mentors, certifications?</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="a7"><span>Closer: "Is there anything in my background that gives you pause?"</span></label></li>
+            </ul>
+          </div>
+          <div class="card panel reveal" style="--d:1">
+            <div class="panel-head"><h3>Day of</h3></div>
+            <ul class="checklist" data-group="dayof">
+              <li><label class="check"><input type="checkbox" data-id="d1"><span>Camera at eye level, light in front, quiet room</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="d2"><span>Test the link, mic and camera 15 minutes early</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="d3"><span>Notifications off, laptop charging, water nearby</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="d4"><span>Pen and paper for the coding or design question</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="d5"><span>Portfolio link ready to share</span></label></li>
+            </ul>
+            <ul class="facts tips-list">
+              <li><strong>Don't know?</strong> "I haven't used X yet. The closest I've done is Y, and here's how I'd figure it out." Never bluff.</li>
+              <li><strong>Stuck on code?</strong> Say what you're thinking. Interviewers give hints to people who talk.</li>
+              <li><strong>Afterwards:</strong> thank-you email within 24 hours mentioning one specific thing you discussed.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer-mini">
+    <div class="container"><span class="mono muted">Built for Billy · progress saves in this browser only</span><button class="mini" type="button" id="resetAll">Reset all progress</button></div>
+  </footer>
+
+  <div class="term-pop" id="termPop" role="dialog" aria-live="polite" hidden></div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/terms.js"></script>
+  <script src="js/challenges.js"></script>
+  <script src="js/runner.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
