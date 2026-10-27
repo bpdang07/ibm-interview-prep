@@ -2,7 +2,7 @@
 
 A study site for the IBM entry-level Cloud Developer technical interview. Plain HTML, CSS and JavaScript with no build step.
 
-**Online:** https://bpdang07.github.io/ibm-interview-prep/ (unlisted: the portfolio doesn't link here, and search engines are asked not to index it)
+**Online:** https://bpdang07.github.io/ibm-interview-prep/, linked from the **Interview prep** button in the portfolio's header. Search engines are asked not to index it.
 
 Progress and notes save in your browser (localStorage). Each browser, and each address (online vs. on your Mac), keeps its own progress. To move it, use **Plan → Take it with you → Back up progress**, then **Restore** on the other one.
 
@@ -16,7 +16,7 @@ Or from a terminal:
 python3 -m http.server 8081
 ```
 
-The site reopens on the tab you were last on. The **Portfolio** button in the header opens your local portfolio when this site runs on your Mac, and the published one when it runs online.
+The site reopens on the tab you were last on. The **Portfolio** button in the header opens your local portfolio when this site runs on your Mac, and the published one when it runs online; the portfolio's **Interview prep** button does the same in reverse.
 
 ## Tabs
 
