@@ -23,11 +23,11 @@ The site reopens on the tab you were last on. The **Portfolio** button in the he
 | Tab | What's there |
 |---|---|
 | **Plan** | Readiness ring, interview-date countdown, checklist, 1-day / 3-day / week plans, exports, and progress backup |
-| **Terms** | ~280 acronyms and jargon terms: what each stands for, plain-English meaning, example and pronunciation. Search, filter by category, or switch on Quiz me |
-| **Cloud** | 117 flashcards across 12 topics (including Microservices & APIs and IBM Cloud) plus an AWS ↔ Google Cloud ↔ IBM Cloud service map |
-| **Design** | 8 system design scenarios with animated diagrams for deploying SurgiMatch and a CI/CD pipeline |
+| **Terms** | ~320 acronyms and jargon terms (36 of them AWS services): what each stands for, plain-English meaning, example and pronunciation. Search, filter by category, or switch on Quiz me |
+| **Cloud** | 153 flashcards across 13 topics, including 36 on AWS (Lambda, API Gateway, S3, DynamoDB, SQS/SNS, VPC, IAM and how they connect), an AWS ↔ Google Cloud ↔ IBM Cloud service map, and a worked Lambda example (Python handler + SAM template) |
+| **Design** | 11 system design scenarios, with animated diagrams for deploying SurgiMatch, a CI/CD pipeline, a serverless API on AWS, S3 event processing, and a three-tier app on AWS |
 | **Coding** | Interview coding script, 37-problem LeetCode tracker, pattern cheat sheet, Python/SQL templates, Big-O |
-| **Assess** | HackerRank-style online assessment: 12 coding challenges you solve in Python or JavaScript and run against sample and hidden tests, plus a timed multiple-choice quiz (59 questions) |
+| **Assess** | HackerRank-style online assessment: 12 coding challenges you solve in Python or JavaScript and run against sample and hidden tests, plus a timed multiple-choice quiz (79 questions, 20 on AWS) |
 | **Projects** | Walkthrough drafts and likely follow-ups for VetsEZ, Railpark, SurgiMatch, Coup V2, Sofu Tofu Maker and Mazi. Fill in the `[brackets]` |
 | **Mock** | Timed random questions (Mixed, Terms, Cloud, Design, Coding, Projects, Talk), answer guides, self-rating. Keys: Space, G, N |
 | **Talk** | Pitch with a 60–90 s timer, Why IBM, non-technical questions, questions to ask, day-of checklist |

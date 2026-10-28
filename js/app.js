@@ -453,6 +453,71 @@
         ${stages.map(([l, s], i) => box(x(i), 30, 80, 56, l, s, i === 7 ? 'hl' : '')).join('')}
       </svg>`;
     },
+    awsServerless() {
+      const lines = [
+        ['M130 150 H170', ''], ['M75 125 V43 H170', 'dash'], ['M320 150 H360', ''], ['M520 150 H570', ''],
+        ['M75 175 V232', ''], ['M440 175 V232', ''], ['M520 255 H570', ''],
+      ];
+      return `<svg viewBox="0 0 760 290" role="img" aria-label="Serverless API: app users sign in with Cognito, which issues a JWT. Requests go to API Gateway, which checks the JWT and invokes Lambda functions that read and write a DynamoDB table. Lambda puts slow jobs on an SQS queue for a worker Lambda. Photos upload straight to S3.">
+        ${lines.map(([d, c]) => `<path class="d-line ${c}" d="${d}" marker-end="url(#arrow)"/>`).join('')}
+        ${packet('M130 150 H170 M320 150 H360 M520 150 H570', 2.6)}
+        ${packet('M440 175 V232 M520 255 H570', 2.6, 1.3, true)}
+        ${box(20, 125, 110, 50, 'App users', 'phone · browser')}
+        ${box(170, 20, 150, 46, 'Cognito', 'sign-in · issues JWT')}
+        ${box(170, 125, 150, 50, 'API Gateway', 'checks the JWT', 'hl')}
+        ${box(360, 125, 160, 50, 'Lambda', 'API handlers', 'hl')}
+        ${box(570, 125, 170, 50, 'DynamoDB', 'trips table')}
+        ${box(20, 232, 110, 46, 'S3', 'photo uploads')}
+        ${box(360, 232, 160, 46, 'SQS queue', 'slow jobs')}
+        ${box(570, 232, 170, 46, 'Worker Lambda', 'emails · PDFs')}
+      </svg>`;
+    },
+    awsEvents() {
+      const lines = [['M130 65 H165', ''], ['M285 65 H320', ''], ['M440 65 H475', ''], ['M595 65 H630', ''], ['M535 90 V170', ''], ['M595 193 H630', '']];
+      return `<svg viewBox="0 0 760 240" role="img" aria-label="Upload pipeline: the browser uploads to an S3 bucket with a pre-signed URL. S3 sends an event to an SQS queue, a Lambda function processes it and saves results in DynamoDB, then publishes to an SNS topic that notifies subscribers. Messages that keep failing move from the queue to a dead-letter queue.">
+        ${lines.map(([d, c]) => `<path class="d-line ${c}" d="${d}" marker-end="url(#arrow)"/>`).join('')}
+        <path class="d-rollback" d="M380 90 V170" marker-end="url(#arrow)"/>
+        <text class="d-rollback-label" x="390" y="134">after 3 failed tries</text>
+        ${packet('M130 65 H165 M285 65 H320 M440 65 H475 M595 65 H630', 3)}
+        ${packet('M535 90 V170 M595 193 H630', 3, 1.5, true)}
+        ${box(20, 40, 110, 50, 'Browser', 'pre-signed URL')}
+        ${box(165, 40, 120, 50, 'S3 bucket', 'ObjectCreated', 'hl')}
+        ${box(320, 40, 120, 50, 'SQS queue', 'buffers spikes')}
+        ${box(475, 40, 120, 50, 'Lambda', 'extract text', 'hl')}
+        ${box(630, 40, 110, 50, 'DynamoDB', 'results')}
+        ${box(310, 170, 140, 46, 'Dead-letter queue', 'alarm on it')}
+        ${box(475, 170, 120, 46, 'SNS topic', 'notify')}
+        ${box(630, 170, 110, 46, 'Subscribers', 'email · services')}
+      </svg>`;
+    },
+    aws3tier() {
+      const lines = [
+        ['M120 53 H150', ''], ['M270 53 H295 V86 H320', ''], ['M415 108 V150', ''], ['M635 108 V150', ''],
+        ['M415 200 V250', ''], ['M600 200 C600 228 470 222 470 250', ''],
+        ['M330 175 H270', 'dash'], ['M330 188 C300 188 300 273 270 273', 'dash'],
+      ];
+      return `<svg viewBox="0 0 760 330" role="img" aria-label="Three-tier app on AWS: users reach Route 53, which points to an Application Load Balancer in a VPC spanning two availability zones. The load balancer sends traffic to app servers in an Auto Scaling group in both zones. The app servers use an RDS primary database, which replicates to a standby in the other zone. App servers read credentials from Secrets Manager and send logs to CloudWatch.">
+        <rect class="d-zone" x="300" y="10" width="440" height="310" rx="14"/>
+        <text class="d-zone-label" x="314" y="30">VPC</text>
+        <text class="d-zone-label" x="336" y="138">ZONE A</text>
+        <text class="d-zone-label" x="556" y="138">ZONE B</text>
+        <path class="d-line dash" d="M525 120 V310"/>
+        ${lines.map(([d, c]) => `<path class="d-line ${c}" d="${d}" marker-end="url(#arrow)"/>`).join('')}
+        <path class="d-rollback" d="M500 275 H550" marker-end="url(#arrow)"/>
+        <text class="d-rollback-label" x="525" y="307" text-anchor="middle">sync copy</text>
+        ${packet('M120 53 H150 M270 53 H295 V86 H320 M415 108 V150 M415 200 V250', 3.2)}
+        ${packet('M635 108 V150 M600 200 C600 228 470 222 470 250', 3.2, 1.6, true)}
+        ${box(20, 30, 100, 46, 'Users', 'HTTPS')}
+        ${box(150, 30, 120, 46, 'Route 53', 'DNS')}
+        ${box(320, 64, 400, 44, 'Application Load Balancer', 'public subnets · ACM certificate', 'hl')}
+        ${box(330, 150, 170, 50, 'App servers', 'Auto Scaling group')}
+        ${box(550, 150, 170, 50, 'App servers', 'Auto Scaling group')}
+        ${box(330, 250, 170, 50, 'RDS primary', 'private subnet', 'hl')}
+        ${box(550, 250, 170, 50, 'RDS standby', 'Multi-AZ failover')}
+        ${box(20, 152, 250, 46, 'Secrets Manager', 'DB credentials')}
+        ${box(20, 250, 250, 46, 'CloudWatch', 'logs · metrics · alarms')}
+      </svg>`;
+    },
   };
 
   /* ------------------------------------------------------------------

@@ -285,6 +285,64 @@
           <p class="hint">You've used AWS (VetsEZ) and Google Cloud (Railpark). Saying "that's the IBM version of S3" shows your knowledge transfers.</p>
           <div class="table-wrap"><table class="table" id="serviceMap"></table></div>
         </div>
+
+        <div class="card panel lambda-panel reveal">
+          <div class="panel-head"><h3>Lambda in practice</h3><span class="mono muted">POST /items → Lambda → DynamoDB</span></div>
+          <p class="hint">How the pieces connect: an API Gateway route invokes the function, the function's IAM role lets it write to one table, its environment variable says which table, and everything it prints lands in CloudWatch Logs. Diagrams of bigger AWS designs are on the <a href="#design">Design tab</a>.</p>
+          <div class="grid-2 code-grid">
+            <div>
+              <h4 class="code-title">src/app.py: the function</h4>
+<pre><code><span class="k">import</span> json
+<span class="k">import</span> os
+<span class="k">import</span> boto3
+
+<span class="c"># Runs once per container and is reused while it stays warm</span>
+table = boto3.resource(<span class="s">"dynamodb"</span>).Table(os.environ[<span class="s">"TABLE_NAME"</span>])
+
+<span class="k">def</span> handler(event, context):
+    <span class="c"># API Gateway passes the request body as a string</span>
+    body = json.loads(event.get(<span class="s">"body"</span>) <span class="k">or</span> <span class="s">"{}"</span>)
+    item = {<span class="s">"id"</span>: context.aws_request_id, <span class="s">"name"</span>: body.get(<span class="s">"name"</span>, <span class="s">""</span>)}
+    table.put_item(Item=item)
+    print(<span class="s">"created"</span>, item[<span class="s">"id"</span>])   <span class="c"># → CloudWatch Logs</span>
+    <span class="k">return</span> {
+        <span class="s">"statusCode"</span>: 201,
+        <span class="s">"headers"</span>: {<span class="s">"Content-Type"</span>: <span class="s">"application/json"</span>},
+        <span class="s">"body"</span>: json.dumps(item),
+    }</code></pre>
+            </div>
+            <div>
+              <h4 class="code-title">template.yaml: the wiring (AWS SAM)</h4>
+<pre><code><span class="k">Transform</span>: AWS::Serverless-2016-10-31
+<span class="k">Resources</span>:
+  <span class="k">ItemsTable</span>:
+    <span class="k">Type</span>: AWS::Serverless::SimpleTable
+  <span class="k">CreateItem</span>:
+    <span class="k">Type</span>: AWS::Serverless::Function
+    <span class="k">Properties</span>:
+      <span class="k">Runtime</span>: python3.12
+      <span class="k">Handler</span>: app.handler
+      <span class="k">CodeUri</span>: src/
+      <span class="k">Environment</span>:
+        <span class="k">Variables</span>:
+          <span class="k">TABLE_NAME</span>: !Ref ItemsTable   <span class="c"># which table</span>
+      <span class="k">Policies</span>:                       <span class="c"># becomes its IAM role</span>
+        - <span class="k">DynamoDBCrudPolicy</span>:
+            <span class="k">TableName</span>: !Ref ItemsTable
+      <span class="k">Events</span>:                         <span class="c"># the trigger</span>
+        <span class="k">Api</span>:
+          <span class="k">Type</span>: HttpApi
+          <span class="k">Properties</span>:
+            <span class="k">Path</span>: /items
+            <span class="k">Method</span>: post</code></pre>
+            </div>
+          </div>
+          <ol class="say-list lambda-steps">
+            <li><code>sam build</code> then <code>sam deploy --guided</code>: SAM turns the template into CloudFormation and creates the table, the function, its IAM role and the HTTP API together.</li>
+            <li>Test it: <code>curl -X POST "https://&lt;api-id&gt;.execute-api.&lt;region&gt;.amazonaws.com/items" -H "Content-Type: application/json" -d '{"name":"Billy"}'</code>, then find the new item in DynamoDB and the "created" line in CloudWatch Logs.</li>
+            <li>Change the code, run <code>sam deploy</code> again, and roll back by redeploying the previous version. To tear it all down: <code>sam delete</code>.</li>
+          </ol>
+        </div>
       </div>
     </section>
 

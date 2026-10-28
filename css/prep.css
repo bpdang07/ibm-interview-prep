@@ -336,6 +336,11 @@ kbd { font-family: var(--font-mono); font-size: 0.8em; padding: 1px 7px; border-
 .prob a svg { width: 14px; height: 14px; }
 
 .code-grid { margin-bottom: 20px; }
+.lambda-panel .hint { margin: 0 0 16px; }
+.lambda-panel .hint a { color: var(--accent); font-weight: 600; }
+.lambda-panel .code-grid { margin-bottom: 16px; }
+.code-title { font-family: var(--font-mono); font-size: 0.74rem; font-weight: 500; color: var(--muted); margin-bottom: 8px; }
+.lambda-steps { margin: 0; }
 pre { margin: 0; padding: 16px; overflow-x: auto; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--line); font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.65; color: var(--text-2); }
 pre code { padding: 0; border: 0; background: none; font-size: inherit; }
 pre .k { color: var(--accent-3); font-weight: 500; }
