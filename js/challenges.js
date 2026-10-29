@@ -2,6 +2,70 @@
 // Each challenge's tests run against your code in the browser; the first `samples`
 // tests are shown, the rest are hidden like on a real assessment. A test can be
 // { args, out } or { make: () => ({ args, out }) } for large generated inputs.
+// A challenge can set `starter` ({ py, js }) to hand out helper code, like a tree builder.
+
+// Level-order list (LeetCode style, null = missing child) of a balanced BST holding lo..hi
+function bstLevelOrder(lo, hi) {
+  const out = [];
+  const ranges = [[lo, hi]];
+  for (let head = 0; head < ranges.length; head++) {
+    const [a, b] = ranges[head];
+    if (a > b) { out.push(null); continue; }
+    const mid = Math.floor((a + b) / 2);
+    out.push(mid);
+    ranges.push([a, mid - 1], [mid + 1, b]);
+  }
+  while (out.length && out[out.length - 1] === null) out.pop();
+  return out;
+}
+
+const TREE_PY = `class Node:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+def build(values):
+    # Level-order list -> tree. None means "no node here".
+    if not values or values[0] is None:
+        return None
+    root = Node(values[0])
+    queue = [root]
+    i = 1
+    for node in queue:
+        if i >= len(values):
+            break
+        if values[i] is not None:
+            node.left = Node(values[i])
+            queue.append(node.left)
+        i += 1
+        if i < len(values) and values[i] is not None:
+            node.right = Node(values[i])
+            queue.append(node.right)
+        i += 1
+    return root
+`;
+
+const TREE_JS = `class Node {
+  constructor(val) { this.val = val; this.left = null; this.right = null; }
+}
+
+// Level-order list -> tree. null means "no node here".
+function build(values) {
+  if (!values.length || values[0] === null) return null;
+  const root = new Node(values[0]);
+  const queue = [root];
+  let i = 1;
+  for (let head = 0; head < queue.length && i < values.length; head++) {
+    const node = queue[head];
+    if (values[i] !== null) queue.push(node.left = new Node(values[i]));
+    i++;
+    if (i < values.length && values[i] !== null) queue.push(node.right = new Node(values[i]));
+    i++;
+  }
+  return root;
+}
+`;
 
 PREP.challenges = [
   {
@@ -619,6 +683,87 @@ def minutesToFail(grid):
     }
   }
   return best[target] === Infinity ? -1 : best[target];
+}`,
+    },
+  },
+
+  {
+    id: 'largest-bst', title: 'Largest BST Subtree', diff: 'M', time: 30, tags: ['Trees', 'DFS'],
+    fn: 'largestBst',
+    params: [['int[]', 'values', 'the tree in level order, with None (null in JavaScript) for a missing child']],
+    returns: ['int', 'how many nodes the largest BST subtree has'],
+    story: '<p class="chal-reported">Reported on Glassdoor from an IBM Cloud Developer technical round.</p><p>Given a binary tree, find its largest <strong>subtree</strong> that is a valid binary search tree: every value in a node\'s left subtree is <strong>strictly smaller</strong> than the node, and every value in its right subtree is <strong>strictly larger</strong>. A subtree is a node together with <em>all</em> of its descendants.</p><p>Return the number of nodes in that subtree, or 0 for an empty tree.</p><p>The tree arrives as a level-order list, the way LeetCode writes trees: <code>[10, 5, 15]</code> is 10 with children 5 and 15. The starter code includes <code>build(values)</code>, which turns the list into <code>Node</code> objects with <code>val</code>, <code>left</code> and <code>right</code>.</p>',
+    constraints: ['0 ≤ number of nodes ≤ 12,000', '−10⁵ ≤ node value ≤ 10⁵', 'The tree is at most 200 levels deep'],
+    samples: 2,
+    tests: [
+      { args: [[8, 3, 12, 1, 6, null, 9]], out: 3, why: '9 is in 12\'s right subtree but smaller than 12, so neither 12 nor the root qualifies. The subtree 3 → 1, 6 is valid.' },
+      { args: [[5, 4, 6, null, null, 3, 7]], out: 3, why: 'Every parent and child look fine, but 3 is in 5\'s right subtree and smaller than 5, so the whole tree fails. 6 → 3, 7 is the largest valid subtree.' },
+      { args: [[]], out: 0 },
+      { args: [[42]], out: 1 },
+      { args: [[2, 1, 3]], out: 3 },
+      { args: [[3, 2, 4, null, null, 1]], out: 2 },
+      { args: [[1, 1, 1]], out: 1 },
+      { args: [[10, 5, 15, 1, 8, 12, 20]], out: 7 },
+      { args: [[-5, -10, 0]], out: 3 },
+      { args: [[4, 2, 7, 2, 3, 5, null, 2, null, null, null, null, null, 1]], out: 2 },
+      { args: [[5, null, 4, null, 3, null, 2, null, 1]], out: 1 },
+      { make: () => ({ args: [[1, ...Array.from({ length: 199 }, (_, k) => [null, k + 2]).flat()]], out: 200 }) },
+      { make: () => ({ args: [bstLevelOrder(1, 12000)], out: 12000 }) },
+      { make: () => { const v = bstLevelOrder(1, 12000); v[0] = 0; return { args: [v], out: 6000 }; } },
+      { make: () => { const v = bstLevelOrder(1, 12000); v[v.indexOf(12000)] = 1; return { args: [v], out: 5999 }; } },
+    ],
+    starter: {
+      py: TREE_PY + `
+def largestBst(values):
+    root = build(values)
+    # Write your code here
+    pass
+`,
+      js: TREE_JS + `
+function largestBst(values) {
+  const root = build(values);
+  // Write your code here
+}
+`,
+    },
+    hint: 'Checking each node only against its children isn\'t enough (see sample 1). What would a parent need to know from each child to decide, in one step, whether it\'s a BST too?',
+    approach: 'Post-order DFS: handle both children before the node. Each call returns whether its subtree is a BST, plus its size, smallest value and largest value. A node is a BST when both children are and left.max &lt; node.val &lt; right.min; its size is left + right + 1. An empty child counts as a BST of size 0 with min = +∞ and max = −∞, so leaves need no special case. Track the biggest size seen. Re-validating every subtree from scratch is O(n²) on a long chain.',
+    complexity: 'O(n) time, O(h) space for the recursion, where h is the height.',
+    solution: {
+      py: TREE_PY + `
+def largestBst(values):
+    root = build(values)
+    best = 0
+
+    # Returns (size, smallest, largest) if node's subtree is a BST, else None
+    def walk(node):
+        nonlocal best
+        if node is None:
+            return 0, float('inf'), float('-inf')
+        left, right = walk(node.left), walk(node.right)
+        if left is None or right is None or not left[2] < node.val < right[1]:
+            return None
+        size = left[0] + right[0] + 1
+        best = max(best, size)
+        return size, min(left[1], node.val), max(right[2], node.val)
+
+    walk(root)
+    return best`,
+      js: TREE_JS + `
+function largestBst(values) {
+  const root = build(values);
+  let best = 0;
+  // Returns [size, smallest, largest] if node's subtree is a BST, else null
+  const walk = (node) => {
+    if (!node) return [0, Infinity, -Infinity];
+    const left = walk(node.left), right = walk(node.right);
+    if (!left || !right || !(left[2] < node.val && node.val < right[1])) return null;
+    const size = left[0] + right[0] + 1;
+    best = Math.max(best, size);
+    return [size, Math.min(left[1], node.val), Math.max(right[2], node.val)];
+  };
+  walk(root);
+  return best;
 }`,
     },
   },

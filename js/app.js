@@ -66,7 +66,7 @@
   /* ------------------------------------------------------------------
      Tabs: hash routing with a sliding indicator and directional slides
      ------------------------------------------------------------------ */
-  const TABS = ['plan', 'terms', 'cloud', 'design', 'coding', 'assess', 'projects', 'mock', 'talk'];
+  const TABS = ['plan', 'glassdoor', 'terms', 'cloud', 'design', 'coding', 'assess', 'projects', 'mock', 'talk'];
   const pages = TABS.map((t) => $('#page-' + t));
   const tabLinks = $$('.tabs a');
   const indicator = $('.tab-indicator');
@@ -1281,6 +1281,7 @@
   }
 
   const starter = (c) => {
+    if (c.starter) return c.starter[chalLang];
     const names = c.params.map((p) => p[1]).join(', ');
     return chalLang === 'py'
       ? `def ${c.fn}(${names}):\n    # Write your code here\n    pass\n`
@@ -1693,6 +1694,232 @@
     if (k !== -1) { e.preventDefault(); pickOption(k); }
   });
   paintQuizBest();
+
+  /* ------------------------------------------------------------------
+     Glassdoor: reported questions, fundamentals, SQL drills and a
+     one-way video screen practice (think, then record, no pausing)
+     ------------------------------------------------------------------ */
+  const GD = PREP.glassdoor;
+  $('#gdSource').href = GD.source;
+  const STAGE_KIND = { 'Recruiter call': '', Technical: 'k-design', Manager: 'k-projects' };
+  const goButton = ([kind, target, label]) => (
+    kind === 'tab' ? `<a class="mini" href="#${target}"><svg><use href="#i-next"/></svg> ${label}</a>`
+      : kind === 'jump' ? `<button class="mini" type="button" data-jump="${target}"><svg><use href="#i-chevron"/></svg> ${label}</button>`
+      : kind === 'screen' ? `<button class="mini" type="button" data-screen="${target}"><svg><use href="#i-video"/></svg> ${label}</button>`
+      : `<button class="mini" type="button" data-chal="${target}"><svg><use href="#i-code"/></svg> ${label}</button>`
+  );
+  $('#gdReported').innerHTML = GD.reported.map((r) => `
+    <article class="card gd-item reveal">
+      <div class="gd-meta"><span class="mock-kind ${STAGE_KIND[r.stage] ?? 'k-coding'}">${r.stage}</span><span class="mono muted">${r.where}</span></div>
+      <h3>${r.q}</h3>
+      <details class="fu"><summary>${chevron}<span>How to answer</span></summary><p>${r.how}</p></details>
+      <div class="gd-go">${goButton(r.go)}</div>
+    </article>`).join('');
+
+  $('#gdFundList').innerHTML = GD.fundamentals.map((f) => `
+    <div class="card panel">
+      <div class="panel-head"><h3>${f.topic}</h3><span class="mono muted">${f.items.length} questions</span></div>
+      ${f.items.map(([q, a]) => `<details class="fu"><summary class="no-terms">${chevron}<span>${q}</span></summary><p>${a}</p></details>`).join('')}
+    </div>`).join('');
+
+  const SQL_KW = /\b(SELECT|DISTINCT|FROM|WHERE|LEFT JOIN|JOIN|ON|GROUP BY|HAVING|ORDER BY|LIMIT|OFFSET|AS|IS NULL|DESC|OVER|PARTITION BY)\b/g;
+  $('#gdSchema').textContent = GD.sql.schema;
+  $('#gdSqlList').innerHTML = GD.sql.items.map(([q, sql, note], i) => `
+    <details class="fu"><summary>${chevron}<span>${i + 1}. ${q}</span></summary>
+      <pre><code>${escapeHtml(sql).replace(SQL_KW, '<span class="k">$1</span>')}</code></pre>
+      <p>${escapeHtml(note)}</p>
+    </details>`).join('');
+
+  // Scroll to a section on this page without changing the hash (the hash picks the tab)
+  function jumpTo(id) {
+    const el = $('#' + id);
+    const top = el.getBoundingClientRect().top + scrollY - $('.topbar').offsetHeight - 16;
+    window.scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' });
+  }
+  document.addEventListener('click', (e) => {
+    const jump = e.target.closest('[data-jump]');
+    if (jump) { e.preventDefault(); jumpTo(jump.dataset.jump); return; }
+    const chalBtn = e.target.closest('[data-chal]');
+    if (chalBtn) { openChallenge(chalBtn.dataset.chal); location.hash = 'assess'; return; }
+    const screenBtn = e.target.closest('[data-screen]');
+    if (screenBtn) { jumpTo('gdScreen'); beginThink(Number(screenBtn.dataset.screen)); }
+  });
+
+  const THINK_SEC = 60;
+  const screenEl = {
+    phase: $('#screenPhase'), count: $('#screenCount'), q: $('#screenQ'), timer: $('#screenTimer'),
+    digits: $('#screenDigits'), label: $('#screenLabel'), bar: $('#screenBar'), tip: $('#screenTip'),
+    start: $('#screenStart'), now: $('#screenNow'), stop: $('#screenStop'), retake: $('#screenRetake'),
+    cam: $('#screenCam'), live: $('#screenLive'), playback: $('#screenPlayback'), off: $('#screenOff'), rec: $('#screenRec'),
+  };
+  let screenSec = store.get('screenSec', 180);
+  let screenRuns = store.get('screenRuns', 0);
+  let phase = 'idle'; // idle → think → answer → done
+  let screenIdx = null;
+  let phaseLen = 0;
+  let phaseEnd = 0;
+  let phaseTimer = 0;
+  let camStream = null;
+  let recorder = null;
+  let playbackUrl = null;
+  const screenUsed = new Set();
+
+  $$('#screenLen button').forEach((b) => b.setAttribute('aria-selected', String(Number(b.dataset.sec) === screenSec)));
+  $('#screenLen').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-sec]');
+    if (!b) return;
+    screenSec = Number(b.dataset.sec);
+    store.set('screenSec', screenSec);
+    $$('#screenLen button').forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+  });
+
+  function paintScreen() {
+    const labels = { idle: 'Ready', think: 'Think', answer: camStream ? 'Recording' : 'Answer now', done: 'Done' };
+    screenEl.phase.textContent = labels[phase];
+    screenEl.phase.className = 'mock-kind ' + (phase === 'answer' ? 'k-rec' : phase === 'think' ? 'k-design' : 'k-talk');
+    screenEl.count.textContent = screenRuns ? `${screenRuns} answered` : '';
+    screenEl.start.hidden = phase === 'think' || phase === 'answer';
+    $('span', screenEl.start).textContent = phase === 'done' ? 'Next question' : 'Start';
+    screenEl.now.hidden = phase !== 'think';
+    screenEl.stop.hidden = phase !== 'answer';
+    screenEl.retake.hidden = phase !== 'done';
+    screenEl.tip.hidden = phase !== 'done';
+    const showPlayback = phase === 'done' && !!playbackUrl;
+    screenEl.playback.hidden = !showPlayback;
+    screenEl.live.hidden = showPlayback || !camStream;
+    screenEl.off.hidden = showPlayback || !!camStream;
+    screenEl.rec.hidden = !(phase === 'answer' && recorder);
+  }
+
+  function tickScreen() {
+    const left = Math.max(0, phaseEnd - performance.now());
+    screenEl.digits.textContent = fmtTime(Math.ceil(left / 1000) * 1000);
+    screenEl.bar.style.width = (100 * (1 - left / phaseLen)) + '%';
+    screenEl.timer.classList.toggle('over', phase === 'answer' && left < 10000);
+    if (left > 0) return;
+    if (phase === 'think') beginAnswer();
+    else finishAnswer();
+  }
+  function runPhase(sec, label) {
+    phaseLen = sec * 1000;
+    phaseEnd = performance.now() + phaseLen;
+    screenEl.label.textContent = label;
+    clearInterval(phaseTimer);
+    phaseTimer = setInterval(tickScreen, 200);
+    tickScreen();
+  }
+
+  function clearPlayback() {
+    if (playbackUrl) URL.revokeObjectURL(playbackUrl);
+    playbackUrl = null;
+    screenEl.playback.removeAttribute('src');
+    screenEl.playback.load();
+  }
+  function startRecording() {
+    if (!camStream || typeof MediaRecorder === 'undefined') return;
+    const chunks = [];
+    let rec;
+    try { rec = new MediaRecorder(camStream); } catch (err) { return; }
+    rec.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
+    rec.onstop = () => {
+      if (rec.discard || !chunks.length) return;
+      clearPlayback();
+      playbackUrl = URL.createObjectURL(new Blob(chunks, { type: rec.mimeType || 'video/webm' }));
+      screenEl.playback.src = playbackUrl;
+      paintScreen();
+    };
+    rec.start();
+    recorder = rec;
+  }
+  function stopRecording(keep) {
+    if (!recorder) return;
+    recorder.discard = !keep;
+    if (recorder.state !== 'inactive') recorder.stop();
+    recorder = null;
+  }
+
+  function pickScreen() {
+    let fresh = GD.screen.map((_, i) => i).filter((i) => !screenUsed.has(i));
+    if (!fresh.length) { screenUsed.clear(); fresh = GD.screen.map((_, i) => i); }
+    return fresh[Math.floor(Math.random() * fresh.length)];
+  }
+  function beginThink(i) {
+    stopRecording(false);
+    clearPlayback();
+    screenIdx = i;
+    screenUsed.add(i);
+    screenEl.q.textContent = GD.screen[i][0];
+    if (!reducedMotion) { screenEl.q.classList.remove('swap'); void screenEl.q.offsetWidth; screenEl.q.classList.add('swap'); }
+    phase = 'think';
+    runPhase(THINK_SEC, 'think time');
+    paintScreen();
+  }
+  function beginAnswer() {
+    phase = 'answer';
+    startRecording();
+    runPhase(screenSec, 'answer time');
+    paintScreen();
+  }
+  function finishAnswer() {
+    const used = phaseLen - Math.max(0, phaseEnd - performance.now());
+    clearInterval(phaseTimer);
+    stopRecording(true);
+    phase = 'done';
+    screenRuns += 1;
+    store.set('screenRuns', screenRuns);
+    if (screenRuns >= 3) autoCheck('screen3');
+    screenEl.digits.textContent = fmtTime(used);
+    screenEl.label.textContent = 'you spoke for';
+    screenEl.bar.style.width = '100%';
+    screenEl.timer.classList.remove('over');
+    screenEl.tip.innerHTML = `<strong>A strong answer hits:</strong> ${GD.screen[screenIdx][1]}`;
+    paintScreen();
+  }
+  function cancelScreen() {
+    clearInterval(phaseTimer);
+    stopRecording(false);
+    phase = 'idle';
+    screenEl.q.textContent = 'Press Start for a question.';
+    screenEl.digits.textContent = fmtTime(THINK_SEC * 1000);
+    screenEl.label.textContent = 'think time';
+    screenEl.bar.style.width = '0%';
+    screenEl.timer.classList.remove('over');
+    paintScreen();
+  }
+
+  function stopCamera() {
+    if (phase === 'answer') stopRecording(false);
+    if (camStream) camStream.getTracks().forEach((t) => t.stop());
+    camStream = null;
+    screenEl.live.srcObject = null;
+    screenEl.cam.checked = false;
+    paintScreen();
+  }
+  screenEl.cam.addEventListener('change', async () => {
+    if (!screenEl.cam.checked) return stopCamera();
+    try {
+      camStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      screenEl.live.srcObject = camStream;
+      if (phase === 'answer') startRecording();
+    } catch (err) {
+      screenEl.cam.checked = false;
+      showToast('No camera access. You can still practice without it.');
+    }
+    paintScreen();
+  });
+
+  screenEl.start.addEventListener('click', () => beginThink(pickScreen()));
+  screenEl.now.addEventListener('click', beginAnswer);
+  screenEl.stop.addEventListener('click', finishAnswer);
+  screenEl.retake.addEventListener('click', () => beginThink(screenIdx));
+  // Leaving the tab ends a run in progress and turns the camera off
+  window.addEventListener('hashchange', () => {
+    if (current === 'glassdoor') return;
+    if (phase === 'think' || phase === 'answer') cancelScreen();
+    if (camStream) stopCamera();
+  });
+  window.addEventListener('pagehide', () => { if (camStream) stopCamera(); });
+  paintScreen();
 
   /* ------------------------------------------------------------------
      Readiness ring on the Plan tab

@@ -50,6 +50,8 @@
     <symbol id="i-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
     <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.34 8.5 5 5 0 0 0 7 19z"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3.5v11L16 14"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
   </svg>
 
   <a class="skip" href="#main">Skip to content</a>
@@ -62,6 +64,7 @@
       </a>
       <nav class="tabs" aria-label="Sections">
         <a href="#plan" data-tab="plan">Plan</a>
+        <a href="#glassdoor" data-tab="glassdoor">Glassdoor</a>
         <a href="#terms" data-tab="terms">Terms</a>
         <a href="#cloud" data-tab="cloud">Cloud</a>
         <a href="#design" data-tab="design">Design</a>
@@ -130,7 +133,7 @@
           <span class="kicker">How the round usually goes</span>
           <h2>Five parts, roughly in this order.</h2>
           <span class="rule"></span>
-          <p class="section-sub">Formats vary by team, so ask your recruiter what to expect. This is the most common shape of an entry-level technical round.</p>
+          <p class="section-sub">Formats vary by team, so ask your recruiter what to expect. This is the most common shape of an entry-level technical round. For what past candidates actually got asked, see the <a href="#glassdoor">Glassdoor tab</a>.</p>
         </div>
         <ol class="steps steps-5" data-stagger>
           <li class="card step"><h3>Intro</h3><p>"Tell me about yourself." 60–90 seconds. <a href="#talk">Pitch →</a></p></li>
@@ -156,6 +159,7 @@
               <li><label class="check"><input type="checkbox" data-id="assess6"><span>Pass every test on 6 Assess challenges</span></label></li>
               <li><label class="check"><input type="checkbox" data-id="quiz80"><span>Score 80% or more on a 20-question cloud quiz</span></label></li>
               <li><label class="check"><input type="checkbox" data-id="sql"><span>Write a JOIN + GROUP BY + HAVING query from memory</span></label></li>
+              <li><label class="check"><input type="checkbox" data-id="screen3"><span>Answer 3 one-way video questions on the Glassdoor tab</span></label></li>
               <li><label class="check"><input type="checkbox" data-id="openshift"><span>Deploy one container to a free OpenShift or IBM Cloud tier</span></label></li>
               <li><label class="check"><input type="checkbox" data-id="mock2"><span>Two full mock interviews in Mixed mode</span></label></li>
               <li><label class="check"><input type="checkbox" data-id="pitch"><span>Pitch in under 90 seconds</span></label></li>
@@ -218,6 +222,170 @@
               </div>
               <a class="mini" id="portfolioLink2" href="https://bpdang07.github.io/bpdang07_portfolio/"><svg><use href="#i-external"/></svg> Open my portfolio</a>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== GLASSDOOR ============================== -->
+    <section class="page" id="page-glassdoor" data-title="What Glassdoor reviewers reported — IBM Tech Prep" hidden>
+      <div class="container section page-top">
+        <div class="section-head reveal">
+          <span class="kicker">From Glassdoor</span>
+          <h2>What IBM Cloud Developer candidates reported.</h2>
+          <span class="rule"></span>
+          <p class="section-sub">Paraphrased from the Cloud Developer interview reviews on <a id="gdSource" href="#" target="_blank" rel="noopener">Glassdoor</a>. There are only twelve, the newest from February 2023, and most are from outside the US, so treat them as patterns, not a script. Then ask your recruiter what your round looks like.</p>
+        </div>
+
+        <div class="gd-stats" data-stagger>
+          <div class="card gd-stat"><strong>12</strong><span>Cloud Developer reviews, 2019–2023</span></div>
+          <div class="card gd-stat"><strong>75%</strong><span>called it a positive experience (8% negative)</span></div>
+          <div class="card gd-stat"><strong>58%</strong><span>applied online; 17% came through a recruiter</span></div>
+          <div class="card gd-stat"><strong>2–4</strong><span>rounds: HR, one or two technical, then a manager</span></div>
+        </div>
+
+        <ol class="steps steps-5" data-stagger>
+          <li class="card step"><h3>Recorded video</h3><p>Common across IBM roles: a one-way video screen with about a minute to think and a few minutes to answer. <a href="#" data-jump="gdScreen">Practice →</a></p></li>
+          <li class="card step"><h3>Online test</h3><p>HackerRank or LeetCode-style problems, graded against hidden tests. <a href="#assess">Assess →</a></p></li>
+          <li class="card step"><h3>HR call</h3><p>Your experience, the tech you've used, and why you want this move. <a href="#talk">Talk →</a></p></li>
+          <li class="card step"><h3>Technical</h3><p>Coding in the job's language, résumé scenarios, SQL and CS fundamentals. <a href="#" data-jump="gdFund">Fundamentals →</a></p></li>
+          <li class="card step"><h3>Manager</h3><p>Past projects, why IBM, and your questions for them. <a href="#projects">Projects →</a></p></li>
+        </ol>
+        <p class="hint gd-note">Several reviewers said the process was quick and had few steps, but a few heard nothing for weeks after the final round and got little feedback. Silence isn't a no: send one polite follow-up after a week.</p>
+      </div>
+
+      <div class="container section section-tight">
+        <div class="section-head reveal">
+          <span class="kicker">Reported questions</span>
+          <h2>What they were asked.</h2>
+          <span class="rule"></span>
+          <p class="section-sub">Every question from the reviews, with the round it came up in and how to answer it. Each one links to where you can practice.</p>
+        </div>
+        <div class="gd-grid" id="gdReported"></div>
+      </div>
+
+      <div class="container section section-tight">
+        <div class="card panel screen-panel reveal" id="gdScreen">
+          <div class="panel-head"><h3>One-way video screen</h3><span class="mono muted no-terms">think 1:00 · then record</span></div>
+          <p class="hint">Many IBM roles start with a recorded interview (HireVue or similar): a question appears, you get about a minute to think, then it records for a few minutes. Nobody is on the other end and there are no do-overs. Practice the rhythm here, out loud.</p>
+          <div class="screen-options">
+            <div class="seg" role="tablist" aria-label="Answer time" id="screenLen">
+              <button type="button" role="tab" data-sec="120" aria-selected="false">2 min answers</button>
+              <button type="button" role="tab" data-sec="180" aria-selected="true">3 min answers</button>
+            </div>
+            <label class="switch"><input type="checkbox" id="screenCam"><span class="switch-ui"></span> Record myself with my camera</label>
+          </div>
+          <div class="screen-grid">
+            <div class="screen-video" id="screenVideo">
+              <video id="screenLive" autoplay muted playsinline hidden></video>
+              <video id="screenPlayback" controls playsinline hidden></video>
+              <div class="screen-off" id="screenOff"><svg aria-hidden="true"><use href="#i-video"/></svg><span>Camera off. Switch it on above to watch yourself back.</span></div>
+              <span class="screen-rec" id="screenRec" hidden><i></i>REC</span>
+            </div>
+            <div class="screen-main">
+              <div class="mock-top"><span class="mock-kind k-talk" id="screenPhase">Ready</span><span class="mono muted" id="screenCount"></span></div>
+              <h3 class="screen-q" id="screenQ">Press Start for a question.</h3>
+              <div class="timer screen-timer" id="screenTimer">
+                <div class="timer-row"><span class="timer-digits" id="screenDigits">1:00</span><span class="mono muted" id="screenLabel">think time</span></div>
+                <div class="timer-bar"><span id="screenBar"></span></div>
+              </div>
+              <div class="mock-actions">
+                <button class="btn btn-primary" type="button" id="screenStart"><svg class="ico"><use href="#i-play"/></svg> <span>Start</span></button>
+                <button class="btn btn-ghost" type="button" id="screenNow" hidden><svg class="ico"><use href="#i-video"/></svg> Start answering now</button>
+                <button class="btn btn-ghost" type="button" id="screenStop" hidden><svg class="ico"><use href="#i-stop"/></svg> I'm done</button>
+                <button class="btn btn-ghost" type="button" id="screenRetake" hidden><svg class="ico"><use href="#i-reset"/></svg> Retake</button>
+              </div>
+              <div class="box screen-tip" id="screenTip" hidden></div>
+            </div>
+          </div>
+          <p class="hint">Recordings stay in this browser tab and are gone when you leave the page. Nothing is uploaded.</p>
+        </div>
+      </div>
+
+      <div class="container section section-tight">
+        <div class="section-head reveal" id="gdFund">
+          <span class="kicker">CS fundamentals</span>
+          <h2>Networks, databases, operating systems.</h2>
+          <span class="rule"></span>
+          <p class="section-sub">A campus-hire reviewer was asked all three. Say each answer out loud before you open it.</p>
+        </div>
+        <div class="gd-fund" id="gdFundList" data-stagger></div>
+      </div>
+
+      <div class="container section section-tight">
+        <div class="card panel gd-sql reveal" id="gdSql">
+          <div class="panel-head"><h3>SQL drills</h3><span class="mono muted no-terms">reported in technical rounds</span></div>
+          <p class="hint">One reviewer was given SQL and couldn't finish it, and Glassdoor's summary mentions SQL (sometimes Snowflake) in technical panels. Write each query on paper first, then check it against the answer.</p>
+          <h4 class="code-title">Tables</h4>
+          <pre id="gdSchema"></pre>
+          <div id="gdSqlList"></div>
+        </div>
+      </div>
+
+      <div class="container section section-tight">
+        <div class="card panel lambda-panel reveal" id="gdDocker">
+          <div class="panel-head"><h3>“Write a simple app, then containerize it”</h3><span class="mono muted no-terms">Flask API → Docker image → container</span></div>
+          <p class="hint">A reported Cloud Software Developer question. Keep the app tiny so the conversation is about the container: why each line of the Dockerfile is there, and how the image gets to the cloud.</p>
+          <div class="grid-2 code-grid">
+            <div>
+              <h4 class="code-title">app.py</h4>
+<pre><code><span class="k">import</span> os
+<span class="k">from</span> flask <span class="k">import</span> Flask, jsonify
+
+app = Flask(__name__)
+
+<span class="c"># Kubernetes and load balancers call this to check the app is up</span>
+@app.get(<span class="s">"/health"</span>)
+<span class="k">def</span> health():
+    <span class="k">return</span> jsonify(status=<span class="s">"ok"</span>)
+
+@app.get(<span class="s">"/hello/&lt;name&gt;"</span>)
+<span class="k">def</span> hello(name):
+    <span class="c"># Config comes from environment variables, not the code</span>
+    version = os.environ.get(<span class="s">"APP_VERSION"</span>, <span class="s">"dev"</span>)
+    <span class="k">return</span> jsonify(message=<span class="s">f"Hello, {name}!"</span>, version=version)</code></pre>
+              <h4 class="code-title gd-file">requirements.txt</h4>
+<pre><code>flask==3.0.3
+gunicorn==22.0.0</code></pre>
+            </div>
+            <div>
+              <h4 class="code-title">Dockerfile</h4>
+<pre><code><span class="k">FROM</span> python:3.12-slim
+<span class="k">WORKDIR</span> /app
+
+<span class="c"># Dependencies first: editing app.py won't re-run pip install</span>
+<span class="k">COPY</span> requirements.txt .
+<span class="k">RUN</span> pip install --no-cache-dir -r requirements.txt
+<span class="k">COPY</span> . .
+
+<span class="c"># Don't run as root inside the container</span>
+<span class="k">RUN</span> useradd --create-home appuser
+<span class="k">USER</span> appuser
+
+<span class="k">EXPOSE</span> 8080
+<span class="c"># 0.0.0.0, not 127.0.0.1, so traffic from outside the container gets in</span>
+<span class="k">CMD</span> [<span class="s">"gunicorn"</span>, <span class="s">"--bind"</span>, <span class="s">"0.0.0.0:8080"</span>, <span class="s">"app:app"</span>]</code></pre>
+              <h4 class="code-title gd-file">.dockerignore</h4>
+<pre><code>.git
+.venv
+__pycache__/
+.env</code></pre>
+            </div>
+          </div>
+          <ol class="say-list lambda-steps">
+            <li>Build the image: <code>docker build -t hello-api:1.0 .</code></li>
+            <li>Run a container from it: <code>docker run --rm -p 8080:8080 -e APP_VERSION=1.0 hello-api:1.0</code>. The <code>-p</code> maps port 8080 on your machine to 8080 in the container.</li>
+            <li>Test it: <code>curl localhost:8080/hello/Billy</code> should return the message with version 1.0.</li>
+            <li>Ship it: tag and push to a registry (IBM Cloud Container Registry, Amazon ECR or Quay), then run it on IBM Cloud Code Engine, OpenShift, or ECS on Fargate, with secrets injected from a secrets manager.</li>
+          </ol>
+          <div class="gd-follow">
+            <h4 class="code-title">What they'll likely ask next</h4>
+            <details class="fu"><summary><svg class="acc-chev" aria-hidden="true"><use href="#i-chevron"/></svg><span>Why copy requirements.txt before the rest of the code?</span></summary><p>Each instruction is a cached layer. Dependencies change rarely and code changes constantly, so installing first means a code edit only rebuilds the last layers, and builds take seconds instead of minutes.</p></details>
+            <details class="fu"><summary><svg class="acc-chev" aria-hidden="true"><use href="#i-chevron"/></svg><span>What's the difference between an image and a container?</span></summary><p>The image is the read-only template you built. A container is one running instance of it, with its own small writable layer. You can run many containers from one image.</p></details>
+            <details class="fu"><summary><svg class="acc-chev" aria-hidden="true"><use href="#i-chevron"/></svg><span>Why gunicorn instead of flask run?</span></summary><p>Flask's built-in server is for development only: one process, no tuning. gunicorn is a production server that runs several worker processes and restarts any that crash.</p></details>
+            <details class="fu"><summary><svg class="acc-chev" aria-hidden="true"><use href="#i-chevron"/></svg><span>How would you make the image smaller?</span></summary><p>A slim base image, a .dockerignore so junk isn't copied in, <code>--no-cache-dir</code> on pip, and a multi-stage build when something has to be compiled: build in one stage and copy only the result into a clean final stage.</p></details>
+            <details class="fu"><summary><svg class="acc-chev" aria-hidden="true"><use href="#i-chevron"/></svg><span>Where would a database password go?</span></summary><p>Never in the image or the Dockerfile, since anyone with the image can read them. Inject it at runtime as an environment variable or mounted file from a secrets manager or a Kubernetes Secret.</p></details>
+            <details class="fu"><summary><svg class="acc-chev" aria-hidden="true"><use href="#i-chevron"/></svg><span>How would Kubernetes use the /health route?</span></summary><p>As a readiness probe (don't send traffic until it answers) and a liveness probe (restart the container if it stops answering). That's how a rolling update knows a new version is healthy before moving on.</p></details>
           </div>
         </div>
       </div>
@@ -726,6 +894,7 @@ table = boto3.resource(<span class="s">"dynamodb"</span>).Table(os.environ[<span
   <script src="js/data.js"></script>
   <script src="js/terms.js"></script>
   <script src="js/challenges.js"></script>
+  <script src="js/glassdoor.js"></script>
   <script src="js/runner.js"></script>
   <script src="js/app.js"></script>
 </body>
